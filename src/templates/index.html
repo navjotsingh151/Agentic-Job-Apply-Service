@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cover Letter Generator</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-br from-indigo-100 via-purple-100 to-pink-100 min-h-screen flex items-center justify-center px-4">
+  <div class="w-full max-w-3xl bg-white shadow-2xl rounded-3xl p-10">
+    <h1 class="text-4xl font-extrabold text-center text-indigo-600 mb-8">
+      🚀 Generate Your Cover Letter
+    </h1>
+
+    <form method="POST" enctype="multipart/form-data" action="/" class="space-y-6">
+      <!-- User Prompt -->
+      <div>
+        <label for="user_prompt" class="block text-lg font-semibold text-purple-700 mb-2">📝 What do you want the assistant to do?</label>
+        <textarea id="user_prompt" name="user_prompt" rows="4"
+                  placeholder="e.g., Write a cover letter for the role of ML Engineer..."
+                  class="w-full p-4 rounded-xl border border-purple-300 focus:ring-2 focus:ring-purple-400 shadow-sm resize-none transition duration-300 ease-in-out"></textarea>
+      </div>
+
+      <!-- Job Description -->
+      <div>
+        <label for="job_description" class="block text-lg font-semibold text-pink-700 mb-2">📄 Job Description</label>
+        <textarea id="job_description" name="job_description" rows="6"
+                  placeholder="Paste the job description here..."
+                  class="w-full p-4 rounded-xl border border-pink-300 focus:ring-2 focus:ring-pink-400 shadow-sm resize-none transition duration-300 ease-in-out"></textarea>
+      </div>
+
+      <!-- Resume Upload -->
+      <div>
+        <label for="resume_file" class="block text-lg font-semibold text-blue-700 mb-2">📎 Upload Your Resume (PDF or DOC/DOCX)</label>
+        <input type="file" id="resume_file" name="resume_file"
+               class="block w-full text-sm text-gray-600 bg-white border border-blue-300 rounded-xl p-3 shadow-sm file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-100 file:text-blue-700 hover:file:bg-blue-200 transition duration-300 ease-in-out"/>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="text-center">
+        <button type="submit"
+                class="w-full py-3 px-6 bg-gradient-to-r from-purple-500 to-pink-500 text-white text-lg font-semibold rounded-full shadow-lg hover:shadow-xl hover:scale-105 transition duration-300 ease-in-out">
+          ✨ Generate Cover Letter
+        </button>
+      </div>
+    </form>
+
+    {% if result %}
+      <div class="mt-10 p-6 border border-gray-300 rounded-2xl bg-gray-50 shadow-inner">
+        <h2 class="text-2xl font-bold text-indigo-700 mb-4">🎉 Your Generated Cover Letter:</h2>
+        <pre class="whitespace-pre-wrap text-gray-800 text-base">{{ result }}</pre>
+      </div>
+    {% endif %}
+  </div>
+</body>
+</html>
