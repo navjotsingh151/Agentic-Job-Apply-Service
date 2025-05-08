@@ -1,9 +1,20 @@
+import sys
 import os
+
+# Add the 'src' directory to PYTHONPATH if needed
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+
 from flask import Flask, render_template, request
 from werkzeug.utils import secure_filename
-from agents.cover_letter_agent import run_cover_letter_agent
+
+from agents.job_agent import run_job_agent  # Unified agent using LangGraph
 import tempfile
 import textract  # For extracting text from PDFs/DOCs
+import sys
+
+import agents.job_agent
+print("Loaded from:", agents.job_agent.__file__)
+
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = tempfile.gettempdir()
@@ -24,8 +35,8 @@ def extract_resume_text(file_path):
 def index():
     result = ""
     if request.method == 'POST':
-        user_prompt = request.form.get('user_prompt')
-        job_description = request.form.get('job_description')
+        user_prompt = request.form.get('user_prompt', '').strip()
+        job_description = request.form.get('job_description', '').strip()
         resume_text = ""
 
         # Process uploaded resume
@@ -43,11 +54,17 @@ User Prompt: {user_prompt}
 Job Description: {job_description}
 
 Resume Content: {resume_text}
-"""
+""".strip()
 
-        result = run_cover_letter_agent(full_prompt)
+        if full_prompt:
+            print("FULL PROMPT TO AGENT:\n", full_prompt)
+
+            result = run_job_agent(full_prompt)
+        else:
+            result = "Please fill in at least one field before generating."
 
     return render_template('index.html', result=result)
 
-if __name__=="__main__":
+
+if __name__ == "__main__":
     app.run(debug=True)

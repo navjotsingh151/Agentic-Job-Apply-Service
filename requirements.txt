@@ -1,0 +1,9 @@
+flask
+gunicorn
+langchain
+openai
+dotenv
+langchain-community
+langchain-groq
+textract
+langgraph
